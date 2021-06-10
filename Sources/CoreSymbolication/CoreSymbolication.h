@@ -59,24 +59,35 @@ const CFUUIDBytes* CSSymbolOwnerGetCFUUIDBytes(CSSymbolOwnerRef owner);
 vm_address_t CSSymbolOwnerGetBaseAddress(CSSymbolOwnerRef owner);
 
 typedef void (^CSSymbolIterator)(CSSymbolRef symbol);
+typedef void (^CSSourceInfoIterator)(CSSourceInfoRef sourceInfo);
+typedef void (^CSStackFrameIterator)(CSTypeRef a, CSTypeRef b);
 
 void CSSymbolOwnerForeachSymbol(CSSymbolOwnerRef owner, CSSymbolIterator interator);
 const char* CSSymbolOwnerGetName(CSSymbolOwnerRef owner);
 CSArchitecture CSSymbolOwnerGetArchitecture(CSSymbolOwnerRef owner);
 const char* CSSymbolOwnerGetPath(CSSymbolOwnerRef owner);
 const char* CSSymbolOwnerGetPathForSymbolication(CSSymbolOwnerRef owner);
+void CSSymbolOwnerForEachStackFrameAtAddress(CSSymbolOwnerRef owner, vm_address_t addr, CF_NOESCAPE CSStackFrameIterator it);
+void CSSymbolOwnerForeachSourceInfo(CSSymbolOwnerRef owner, CSSourceInfoIterator interator);
+CSSourceInfoRef CSSymbolOwnerGetSourceInfoWithAddress(CSSymbolOwnerRef owner, vm_address_t addr);
+CSSymbolRef CSSymbolOwnerGetSymbolWithAddress(CSSymbolOwnerRef owner, vm_address_t addr);
 
 const char* CSSymbolGetMangledName(CSSymbolRef symbol);
 const char* CSSymbolGetName(CSSymbolRef symbol);
 CSRange CSSymbolGetRange(CSSymbolRef symbol);
 Boolean CSSymbolIsFunction(CSSymbolRef sym);
 
-typedef void (^CSSourceInfoIterator)(CSSourceInfoRef sourceInfo);
+typedef void (^CSRangeIterator)(CSRange range);
 
-void CSSymbolForeachSourceInfo(CSSymbolRef symbol, CSSourceInfoIterator);
+void CSSymbolForeachInlineRange(CSSymbolRef sym, CF_NOESCAPE CSRangeIterator interator);
+void CSSymbolForeachInlineRangeAtDepth(CSSymbolRef sym, int depth, CF_NOESCAPE CSRangeIterator interator);
+Boolean CSSymbolHasInlinedSourceInfo(CSSymbolRef sym);
+
+void CSSymbolForeachSourceInfo(CSSymbolRef symbol, CSSourceInfoIterator interator);
 
 int CSSourceInfoGetLineNumber(CSSourceInfoRef info);
 const char* CSSourceInfoGetPath(CSSourceInfoRef info);
 CSRange CSSourceInfoGetRange(CSSourceInfoRef info);
+CSSymbolRef CSSourceInfoGetSymbol(CSSourceInfoRef info);
 
 #endif /* CoreSymbolication_h */
