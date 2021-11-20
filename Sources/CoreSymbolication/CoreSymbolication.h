@@ -34,6 +34,11 @@ CSTypeRef CSRetain(CSTypeRef cs);
 void CSRelease(CSTypeRef cs);
 void CSShow(CSTypeRef cs);
 
+typedef int CSDebugLogLevel;
+
+CSDebugLogLevel CSGetDebugLoggingLevel() API_AVAILABLE(macosx(12.0));
+void CSSetDebugLoggingLevel(CSDebugLogLevel level) API_AVAILABLE(macosx(12.0));
+
 typedef void (^CSSymbolicatorIterator)(CSSymbolicatorRef symbolicator);
 
 void CSSymbolicatorForeachSymbolicatorWithURL(CFURLRef url, CSSymbolicatorIterator it);

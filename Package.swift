@@ -13,6 +13,16 @@ let package = Package(
     ],
     targets: [
         .systemLibrary(name: "CoreSymbolication"),
+        .testTarget(name: "CoreSymbolicationTests",
+                    dependencies: ["CoreSymbolication"],
+                    linkerSettings: [
+                      .unsafeFlags([
+                        "-Xlinker", "-F",
+                        "-Xlinker", "/System/Library/PrivateFrameworks",
+                        "-Xlinker", "-framework",
+                        "-Xlinker", "CoreSymbolication",
+                      ]),
+                    ]),
     ],
     swiftLanguageVersions: [.v5]
 )
