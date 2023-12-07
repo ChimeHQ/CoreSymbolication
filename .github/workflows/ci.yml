@@ -3,7 +3,12 @@ name: CI
 on:
   push:
     branches:
-      - '*'
+      - main
+    paths-ignore:
+      - 'README.md'
+      - 'CODE_OF_CONDUCT.md'
+      - '.editorconfig'
+      - '.spi.yml'
   pull_request:
     branches:
       - main
@@ -11,24 +16,15 @@ on:
 jobs:
   test:
     name: Test
-    runs-on: macOS-latest
     strategy:
       matrix:
-        destination:
-          - "platform=macOS"
-          - "platform=iOS Simulator,name=iPhone 11"
-
+        os:
+          - "macOS-12"
+          - "macOS-13"
+    runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v3
-      - name: Test platform ${{ matrix.destination }}
-        run: set -o pipefail && xcodebuild -scheme EditorConfig -destination "${{ matrix.destination }}" test | xcpretty
-  linux-test:
-    name: Test Linux
-    runs-on: ubuntu-latest
-    container:
-      image: swift:latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - name: Install XCBeautify
+        run: brew install xcbeautify
       - name: Test
-        run: swift test
+        run: set -o pipefail && xcodebuild -scheme CoreSymbolication-Package -destination "${{ matrix.destination }}" test | xcbeautify --renderer github-actions
