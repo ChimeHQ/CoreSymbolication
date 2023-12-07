@@ -25,6 +25,8 @@ linkerSettings: [
 ]),
 ```
 
+If you are here, you might also be interested in gSYM, an efficient format used by the LLVM project for symbolication. I also put together a [go library](https://github.com/ChimeHQ/gogsym) that can be used to consume gsym files.
+
 ## Integration
 
 ### Swift Package Manager
