@@ -1,6 +1,6 @@
 module CoreSymbolication [system] [extern_c] {
     requires macos
     header "CoreSymbolication.h"
-    link framework "/System/Library/PrivateFrameworks/CoreSymbolication.framework"
+//    link framework "CoreSymbolication"
     export *
 }
