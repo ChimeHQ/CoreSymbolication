@@ -27,4 +27,4 @@ jobs:
       - name: Install XCBeautify
         run: brew install xcbeautify
       - name: Test
-        run: set -o pipefail && xcodebuild -scheme CoreSymbolication-Package -destination "${{ matrix.destination }}" test | xcbeautify --renderer github-actions
+        run: set -o pipefail && xcodebuild -scheme CoreSymbolication-Package -destination "platform=macOS" test | xcbeautify --renderer github-actions
