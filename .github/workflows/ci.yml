@@ -21,10 +21,9 @@ jobs:
         os:
           - "macOS-12"
           - "macOS-13"
+          - "macOS-14"
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - name: Install XCBeautify
-        run: brew install xcbeautify
       - name: Test
-        run: set -o pipefail && xcodebuild -scheme CoreSymbolication -destination "platform=macOS" test | xcbeautify --renderer github-actions
+        run: set -o pipefail && xcodebuild -scheme CoreSymbolication -destination "platform=macOS" test | xcbeautify
